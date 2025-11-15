@@ -1,0 +1,43 @@
+Typography
+
+Font Family: Inter (sans-serif) for body text, maintaining a clean, modern look
+Font Weights: Uses 400 (regular), 500 (medium), and 700 (bold) for hierarchy
+Font Sizes: Small and compact (0.75rem base) for maximizing content on the page
+Letter Spacing: Increased spacing on the name (2px) and section headers (1px) for emphasis
+
+Color Scheme
+
+Primary Text: Black (#000000) for maximum readability
+Accent Color: Red (#D32F2F) for the tagline and section headers
+Secondary Text: Gray (#555, #717885) for dates, descriptions, and footer
+Borders: Black and light gray (#D7DCE4) for structure
+
+Layout & Structure
+
+Margins: Generous side margins (2.5rem) creating white space
+Grid-based Skills: Clean alignment using CSS grid for skill categories
+Flexbox Headers: Job titles and dates aligned using flex layout
+Clear Hierarchy: Bold section headers with bottom borders separate content areas
+
+Visual Elements
+
+Heavy Border: 3px black border under the header for strong visual anchor
+Section Dividers: 2px borders under section headers (red color)
+Subtle Lines: 1px borders for footer separation
+Minimal Decoration: Clean, professional aesthetic without excessive styling
+
+Content Organization
+
+Left-aligned: All text aligned left for easy reading
+Bullet Points: Standard list formatting with appropriate spacing
+Consistent Spacing: Uniform margins between sections and list items
+Job Format: Title and duration on same line with space-between alignment
+
+Overall Style
+
+Minimalist: Focus on content over decoration
+Professional: Corporate-appropriate color scheme and layout
+Scannable: Clear headers and white space for quick reading
+Compact: Efficient use of space to fit comprehensive information
+
+This design prioritizes clarity, professionalism, and readability while maintaining a modern aesthetic suitable for tech and administrative roles.

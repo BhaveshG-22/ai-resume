@@ -1,0 +1,30 @@
+{
+  "name": "airesume",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "node generate_resume.js",
+    "layer1": "node layer1_ai_generation.js",
+    "layer2": "node layer2_html_generation.js --json tailored_content.json",
+    "layer3": "node generatePDF.js resume.html",
+    "generate-pdf": "node generatePDF.js sample.html"
+  },
+  "keywords": [
+    "resume",
+    "ai",
+    "pdf",
+    "ats",
+    "job-application",
+    "career"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "AI-powered resume generator with 3-layer architecture: AI content generation, HTML templating, and PDF conversion",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.69.0",
+    "api2pdf": "^2.0.3",
+    "dotenv": "^17.2.3",
+    "openai": "^6.9.0"
+  }
+}

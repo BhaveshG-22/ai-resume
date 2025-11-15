@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhavesh Gavali - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: #000000;
+            background: #ffffff;
+            padding: 1.5rem 2.5rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #000000;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+
+        .header .tagline {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #D32F2F;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #555555;
+        }
+
+        .contact-info span {
+            white-space: nowrap;
+        }
+
+        h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #D32F2F;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid #D32F2F;
+        }
+
+        h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-category {
+            padding: 0.5rem;
+            background: #f9f9f9;
+            border-left: 3px solid #D32F2F;
+        }
+
+        .skill-category h3 {
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+            color: #000000;
+        }
+
+        .skill-category p {
+            color: #555555;
+            line-height: 1.5;
+        }
+
+        .experience-item {
+            margin-bottom: 1.25rem;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .experience-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .experience-duration {
+            font-size: 0.75rem;
+            color: #717885;
+            font-weight: 500;
+        }
+
+        .experience-company {
+            font-size: 0.8rem;
+            color: #555555;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-item ul {
+            margin-left: 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .experience-item li {
+            margin-bottom: 0.35rem;
+            line-height: 1.5;
+            color: #000000;
+        }
+
+        .education-item {
+            margin-bottom: 1rem;
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .education-degree {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .education-duration {
+            font-size: 0.75rem;
+            color: #717885;
+            font-weight: 500;
+        }
+
+        .education-institution {
+            font-size: 0.8rem;
+            color: #555555;
+        }
+
+        .achievement-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .achievement-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 0.25rem;
+        }
+
+        .achievement-description {
+            color: #555555;
+            line-height: 1.5;
+        }
+
+        .achievement-date {
+            font-size: 0.7rem;
+            color: #717885;
+            font-style: italic;
+        }
+
+        .certifications-list {
+            margin-left: 1.25rem;
+        }
+
+        .certifications-list li {
+            margin-bottom: 0.35rem;
+            font-weight: 500;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #D7DCE4;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #717885;
+        }
+
+        @media print {
+            body {
+                padding: 0.5rem 1.5rem;
+            }
+            
+            .header {
+                margin-bottom: 1rem;
+            }
+            
+            h2 {
+                margin-top: 1rem;
+                page-break-after: avoid;
+            }
+            
+            .experience-item,
+            .education-item,
+            .achievement-item {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bhavesh Gavali</h1>
+        <div class="tagline">Technology Support Analyst | Bilingual Customer Service Professional</div>
+        <div class="contact-info">
+            <span>📧 bhaveshgavali2022@gmail.com</span>
+            <span>📱 (647) 975-5217</span>
+            <span>📍 Vancouver, BC, CA</span>
+        </div>
+    </div>
+
+    <div class="summary">
+        Bilingual (English/French) Technology Analyst with a strong background in customer service and technical support, combining hands-on retail experience with emerging IT skills. Proven track record of exceeding performance targets, troubleshooting technical issues, and delivering exceptional customer experiences. Skilled in client communication, ticket management, and adapting to fast-paced technology environments.
+    </div>
+
+    <h2>Skills</h2>
+    <div class="skills-grid">
+        <div class="skill-category">
+            <h3>Technical Skills</h3>
+            <p>Windows Server, Active Directory, Azure, Microsoft 365, Remote Desktop Services</p>
+        </div>
+        <div class="skill-category">
+            <h3>Professional Skills</h3>
+            <p>ITIL Framework, Client Support, Ticket Management, Technical Troubleshooting</p>
+        </div>
+    </div>
+
+    <h2>Experience</h2>
+    
+    <div class="experience-item">
+        <div class="experience-header">
+            <span class="experience-title">Sales Consultant</span>
+            <span class="experience-duration">June 2025 - Present</span>
+        </div>
+        <div class="experience-company">Telus Bramalea City Centre | Toronto, ON</div>
+        <ul>
+            <li>Deliver personalized technology solutions through proactive customer engagement</li>
+            <li>Consistently exceed monthly sales targets by understanding individual customer needs</li>
+            <li>Maintain strong customer relationships through comprehensive communication and follow-up</li>
+        </ul>
+    </div>
+
+    <div class="experience-item">
+        <div class="experience-header">
+            <span class="experience-title">Wireless Consultant</span>
+            <span class="experience-duration">Dec 2023 - June 2025</span>
+        </div>
+        <div class="experience-company">Staples #135 Bell | Toronto, ON</div>
+        <ul>
+            <li>Effectively diagnose and resolve customer technical inquiries across multiple service platforms</li>
+            <li>Provide expert guidance on wireless technologies and service solutions</li>
+            <li>Achieve top 5 sales performance in Greater Toronto Area district</li>
+        </ul>
+    </div>
+
+    <div class="experience-item">
+        <div class="experience-header">
+            <span class="experience-title">Wireless Sales Associate</span>
+            <span class="experience-duration">Jan 2023 - Nov 2023</span>
+        </div>
+        <div class="experience-company">Walmart #3135 OSL | Toronto, ON</div>
+        <ul>
+            <li>Manage new device activations and plan transitions across multiple Canadian carriers</li>
+            <li>Consistently surpass sales targets for phones, accessories, and service plans</li>
+            <li>Demonstrate comprehensive knowledge of wireless technology trends and solutions</li>
+        </ul>
+    </div>
+
+    <h2>Achievements</h2>
+    
+    <div class="achievement-item">
+        <div class="achievement-title">Top Wireless Sales Associate</div>
+        <div class="achievement-description">Nationally recognized four times in 2024 for outstanding sales and customer service performance</div>
+        <div class="achievement-date">2024</div>
+    </div>
+
+    <h2>Education</h2>
+    
+    <div class="education-item">
+        <div class="education-header">
+            <span class="education-degree">Bachelor of Computer Science</span>
+            <span class="education-duration">2022 - 2026</span>
+        </div>
+        <div class="education-institution">Algoma University | Sault Ste. Marie, ON</div>
+    </div>
+
+    <h2>Certifications</h2>
+    
+    <ul class="certifications-list">
+        <li>CompTIA A+ Certification - CompTIA</li>
+    </ul>
+
+    <div class="footer">
+        Bhavesh Gavali - Resume
+    </div>
+</body>
+</html>

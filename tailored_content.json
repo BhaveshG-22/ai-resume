@@ -1,0 +1,126 @@
+{
+  "personalInfo": {
+    "name": "Bhavesh Gavali",
+    "title": "Technology Support Analyst | Bilingual Customer Service Professional",
+    "email": "bhaveshgavali2022@gmail.com",
+    "phone": "(647) 975-5217",
+    "location": "Vancouver, BC, CA",
+    "linkedin": "",
+    "portfolio": ""
+  },
+  "summary": {
+    "text": "Bilingual (English/French) Technology Analyst with a strong background in customer service and technical support, combining hands-on retail experience with emerging IT skills. Proven track record of exceeding performance targets, troubleshooting technical issues, and delivering exceptional customer experiences. Skilled in client communication, ticket management, and adapting to fast-paced technology environments."
+  },
+  "skills": {
+    "technical": [
+      "Microsoft Windows Server",
+      "Active Directory",
+      "Azure",
+      "Microsoft 365",
+      "Remote Desktop Services",
+      "SQL Server",
+      "Exchange Server"
+    ],
+    "tools": [
+      "PSA Software",
+      "Ticket Tracking Systems",
+      "Multi-Carrier Platforms"
+    ],
+    "soft": [
+      "Client Communication",
+      "Problem Resolution",
+      "Time Management",
+      "Adaptability",
+      "Customer Service"
+    ],
+    "categories": [
+      {
+        "category": "Technical Skills",
+        "skills": "Windows Server, Active Directory, Azure, Microsoft 365, Remote Desktop Services"
+      },
+      {
+        "category": "Professional Skills",
+        "skills": "ITIL Framework, Client Support, Ticket Management, Technical Troubleshooting"
+      }
+    ]
+  },
+  "experience": [
+    {
+      "title": "Sales Consultant",
+      "company": "Telus Bramalea City Centre",
+      "location": "Toronto, ON",
+      "duration": "June 2025 - Present",
+      "current": true,
+      "achievements": [
+        "Deliver personalized technology solutions through proactive customer engagement",
+        "Consistently exceed monthly sales targets by understanding individual customer needs",
+        "Maintain strong customer relationships through comprehensive communication and follow-up"
+      ]
+    },
+    {
+      "title": "Wireless Consultant",
+      "company": "Staples #135 Bell",
+      "location": "Toronto, ON",
+      "duration": "Dec 2023 - June 2025",
+      "current": false,
+      "achievements": [
+        "Effectively diagnose and resolve customer technical inquiries across multiple service platforms",
+        "Provide expert guidance on wireless technologies and service solutions",
+        "Achieve top 5 sales performance in Greater Toronto Area district"
+      ]
+    },
+    {
+      "title": "Wireless Sales Associate",
+      "company": "Walmart #3135 OSL",
+      "location": "Toronto, ON",
+      "duration": "Jan 2023 - Nov 2023",
+      "current": false,
+      "achievements": [
+        "Manage new device activations and plan transitions across multiple Canadian carriers",
+        "Consistently surpass sales targets for phones, accessories, and service plans",
+        "Demonstrate comprehensive knowledge of wireless technology trends and solutions"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Computer Science",
+      "field": "Computer Science",
+      "institution": "Algoma University",
+      "location": "Sault Ste. Marie, ON",
+      "duration": "2022 - 2026",
+      "gpa": "",
+      "honors": ""
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Top Wireless Sales Associate",
+      "description": "Nationally recognized four times in 2024 for outstanding sales and customer service performance",
+      "date": "2024"
+    }
+  ],
+  "projects": [],
+  "certifications": [
+    {
+      "name": "CompTIA A+ Certification",
+      "issuer": "CompTIA",
+      "date": "",
+      "credentialId": ""
+    }
+  ],
+  "metadata": {
+    "tailoredFor": "Technology Analyst I",
+    "keywords": [
+      "IT Support",
+      "Client Services",
+      "Technical Troubleshooting",
+      "Ticket Management",
+      "Customer Support"
+    ],
+    "atsScore": "High",
+    "generatedDate": "2025-11-15T21:29:29.127Z",
+    "aiProvider": "anthropic",
+    "aiModel": "claude-3-5-haiku-20241022"
+  }
+}

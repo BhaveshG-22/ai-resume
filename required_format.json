@@ -1,0 +1,91 @@
+{
+  "personalInfo": {
+    "name": "Full Name",
+    "title": "Professional Title/Tagline",
+    "email": "email@example.com",
+    "phone": "(123) 456-7890",
+    "location": "City, Province/State",
+    "linkedin": "linkedin.com/in/profile",
+    "portfolio": "portfolio-url.com"
+  },
+  "summary": {
+    "text": "A compelling 2-4 sentence professional summary tailored to the job description, highlighting key strengths and alignment with the role."
+  },
+  "skills": {
+    "technical": [
+      "Skill 1",
+      "Skill 2",
+      "Skill 3"
+    ],
+    "tools": [
+      "Tool 1",
+      "Tool 2",
+      "Tool 3"
+    ],
+    "soft": [
+      "Soft Skill 1",
+      "Soft Skill 2",
+      "Soft Skill 3"
+    ],
+    "categories": [
+      {
+        "category": "Category Name (e.g., Tools, Administrative, Technical)",
+        "skills": "Comma-separated list of skills"
+      }
+    ]
+  },
+  "experience": [
+    {
+      "title": "Job Title",
+      "company": "Company Name",
+      "location": "City, Province/State",
+      "duration": "Start Date - End Date",
+      "current": false,
+      "achievements": [
+        "Tailored achievement bullet point 1 with metrics and impact, optimized for ATS keywords from job description",
+        "Achievement bullet point 2 demonstrating relevant skills and results",
+        "Achievement bullet point 3 showing leadership or initiative"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Degree Name",
+      "field": "Field of Study",
+      "institution": "University/College Name",
+      "location": "City, Province/State",
+      "duration": "Start Year - End Year",
+      "gpa": "GPA (optional)",
+      "honors": "Honors/Awards (optional)"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Achievement Title",
+      "description": "Brief description of the achievement and its impact",
+      "date": "Year or Date"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Project Name",
+      "description": "Brief description highlighting relevant technologies and outcomes",
+      "technologies": ["Tech 1", "Tech 2"],
+      "link": "project-url.com (optional)"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certification Name",
+      "issuer": "Issuing Organization",
+      "date": "Month Year",
+      "credentialId": "ID (optional)"
+    }
+  ],
+  "metadata": {
+    "tailoredFor": "Job title from job description",
+    "keywords": ["keyword1", "keyword2", "keyword3"],
+    "atsScore": "Estimated ATS compatibility (High/Medium/Low)",
+    "generatedDate": "ISO 8601 timestamp"
+  }
+}
