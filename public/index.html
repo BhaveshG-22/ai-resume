@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .pipeline {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .layer {
+            text-align: center;
+            flex: 1;
+        }
+
+        .layer-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .layer-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        label .required {
+            color: #dc3545;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .btn-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.loading {
+            background: #e7f3ff;
+            border: 2px solid #2196F3;
+            color: #1976D2;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            border: 2px solid #4CAF50;
+            color: #2e7d32;
+        }
+
+        .status.error {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            color: #c62828;
+        }
+
+        .status-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .status-details {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 32px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #45a049;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .examples {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .examples h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .example-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .example-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Theme Selector Styles */
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .theme-card {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .theme-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .theme-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .theme-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .theme-card.selected .theme-name {
+            color: #667eea;
+        }
+
+        .theme-description {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .theme-colors {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .color-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .theme-check {
+            margin-left: auto;
+            color: #667eea;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .theme-card.selected .theme-check {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .theme-selector {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .pipeline {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Resume Generator</h1>
+            <p>Transform your experience into a tailored, ATS-optimized resume</p>
+            <div style="margin-top: 10px;">
+                <span style="background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px; font-size: 0.85rem; display: inline-block;">
+                    💾 Auto-Save Enabled
+                </span>
+            </div>
+        </div>
+
+        <div class="pipeline">
+            <div class="layer">
+                <div class="layer-number">1</div>
+                <div class="layer-title">AI Content Generation</div>
+            </div>
+            <div class="layer">
+                <div class="layer-number">2</div>
+                <div class="layer-title">HTML Formatting</div>
+            </div>
+            <div class="layer">
+                <div class="layer-number">3</div>
+                <div class="layer-title">PDF Conversion</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <form id="resumeForm">
+                <div class="form-group">
+                    <label for="jobDescription">
+                        Job Description <span class="required">*</span>
+                    </label>
+                    <textarea
+                        id="jobDescription"
+                        rows="10"
+                        required
+                        placeholder="Paste the complete job description here...
+
+Example:
+Technology Analyst I
+Location: Vancouver, BC
+Requirements:
+- Microsoft Windows Server, Azure, 365
+- ITIL framework knowledge
+- Bilingual English/French
+- Client-facing support experience
+..."
+                    ></textarea>
+                    <div class="hint">Paste the full job posting including requirements, responsibilities, and qualifications</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="userExperience">
+                        Your Experience <span class="required">*</span>
+                    </label>
+                    <textarea
+                        id="userExperience"
+                        rows="12"
+                        required
+                        placeholder="Describe your complete professional experience...
+
+Example:
+Bhavesh Gavali
+Software Developer
+(555) 123-4567
+bhavesh@email.com
+
+EXPERIENCE:
+Software Developer at Tech Corp (2021 - Present)
+- Led development of microservices architecture
+- Mentored junior developers
+- Improved performance by 40%
+
+[Include all your roles, skills, education, and achievements]
+..."
+                    ></textarea>
+                    <div class="hint">Include all work experience, skills, education, and achievements</div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Choose Resume Theme
+                    </label>
+                    <div class="theme-selector">
+                        <div class="theme-card selected" data-theme="modern-professional" onclick="selectTheme('modern-professional')">
+                            <div class="theme-name">Modern Professional</div>
+                            <div class="theme-description">Clean, minimalist design with red accents</div>
+                            <div class="theme-colors">
+                                <div class="color-circle" style="background: #000000;" title="Primary Text"></div>
+                                <div class="color-circle" style="background: #D32F2F;" title="Accent Color"></div>
+                                <div class="color-circle" style="background: #717885;" title="Secondary"></div>
+                                <div class="theme-check">✓</div>
+                            </div>
+                        </div>
+
+                        <div class="theme-card" data-theme="executive-elegance" onclick="selectTheme('executive-elegance')">
+                            <div class="theme-name">Executive Elegance</div>
+                            <div class="theme-description">Sophisticated design with gold accents</div>
+                            <div class="theme-colors">
+                                <div class="color-circle" style="background: #1A2332;" title="Navy"></div>
+                                <div class="color-circle" style="background: #B8860B;" title="Gold"></div>
+                                <div class="color-circle" style="background: #64748B;" title="Slate"></div>
+                                <div class="theme-check">✓</div>
+                            </div>
+                        </div>
+
+                        <div class="theme-card" data-theme="creative-modern" onclick="selectTheme('creative-modern')">
+                            <div class="theme-name">Creative Modern</div>
+                            <div class="theme-description">Contemporary with teal and coral</div>
+                            <div class="theme-colors">
+                                <div class="color-circle" style="background: #2D3748;" title="Charcoal"></div>
+                                <div class="color-circle" style="background: #14B8A6;" title="Teal"></div>
+                                <div class="color-circle" style="background: #FF6B6B;" title="Coral"></div>
+                                <div class="theme-check">✓</div>
+                            </div>
+                        </div>
+
+                        <div class="theme-card" data-theme="technical-precision" onclick="selectTheme('technical-precision')">
+                            <div class="theme-name">Technical Precision</div>
+                            <div class="theme-description">Sharp, structured with bright blue</div>
+                            <div class="theme-colors">
+                                <div class="color-circle" style="background: #000000;" title="Black"></div>
+                                <div class="color-circle" style="background: #0066FF;" title="Blue"></div>
+                                <div class="color-circle" style="background: #333333;" title="Dark Gray"></div>
+                                <div class="theme-check">✓</div>
+                            </div>
+                        </div>
+
+                        <div class="theme-card" data-theme="minimalist-zen" onclick="selectTheme('minimalist-zen')">
+                            <div class="theme-name">Minimalist Zen</div>
+                            <div class="theme-description">Ultra-clean with deep plum accent</div>
+                            <div class="theme-colors">
+                                <div class="color-circle" style="background: #333333;" title="Dark Gray"></div>
+                                <div class="color-circle" style="background: #4A154B;" title="Plum"></div>
+                                <div class="color-circle" style="background: #999999;" title="Light Gray"></div>
+                                <div class="theme-check">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedTheme" value="modern-professional">
+                    <div class="hint">Select a visual style for your resume</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pdfFilename">PDF Filename</label>
+                    <input
+                        type="text"
+                        id="pdfFilename"
+                        placeholder="my-resume.pdf"
+                        style="width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 0.95rem;"
+                    >
+                    <div class="hint">Default: resume.pdf</div>
+                </div>
+
+
+                <div class="examples">
+                    <h3>📋 Quick Actions</h3>
+                    <button type="button" class="example-btn" onclick="clearSavedData()" style="background: #dc3545;">
+                        Clear Form
+                    </button>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <small id="autoSaveIndicator" style="color: #28a745; opacity: 0; transition: opacity 0.3s; font-weight: 500;">
+                            Auto-saved
+                        </small>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn" id="submitBtn">
+                        🚀 Generate My Resume
+                    </button>
+                </div>
+            </form>
+
+            <div id="status" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+        // LocalStorage keys
+        const STORAGE_KEYS = {
+            jobDescription: 'airesume_job_description',
+            userExperience: 'airesume_user_experience',
+            pdfFilename: 'airesume_pdf_filename',
+            selectedTheme: 'airesume_selected_theme'
+        };
+
+        // Theme templates
+        const THEMES = {
+            'modern-professional': `Typography: Inter font, weights 400/500/700, 0.75rem base, letter-spacing 2px on name
+Color Scheme: Black (#000000) primary, Red (#D32F2F) accent, Gray (#717885) secondary
+Layout: 2.5rem margins, grid-based skills, flexbox headers, clear hierarchy
+Visual: 3px black border under header, 2px red borders on sections, minimal decoration
+Style: Minimalist, professional, scannable, compact for tech/administrative roles`,
+
+            'executive-elegance': `Typography: Merriweather headers, Lato body, weights 300/400/600/800, 1rem base, 2.5rem name
+Color Scheme: Deep Navy (#1A2332) primary, Gold (#B8860B) accent, Slate Gray (#64748B) secondary
+Layout: Asymmetric 30/70 sidebar, two-column grid, 3rem margins, floating contact boxes
+Visual: 5px gold left stripe, box shadows on sidebar, 8px rounded corners, light beige (#FAFAF8) sidebar
+Style: Sophisticated, traditional serif/sans, balanced asymmetry for executive/leadership`,
+
+            'creative-modern': `Typography: Poppins throughout, weights 300/500/700/900, 0.875rem base, 3rem name, 3px spacing on headers
+Color Scheme: Charcoal (#2D3748) primary, Teal (#14B8A6) accent, Coral (#FF6B6B) secondary
+Layout: Full-width gradient header, single column, card-based sections, horizontal skill badges
+Visual: Teal-to-cyan gradient header, pill-shaped badges, 3-5° diagonal accents, animated progress bars
+Style: Contemporary, approachable, dynamic gradients for design/marketing/media`,
+
+            'technical-precision': `Typography: Roboto Mono headers, Open Sans body, weights 400/600, 0.8rem base, 1.25 ratio
+Color Scheme: Pure Black (#000000) primary, Bright Blue (#0066FF) accent, Dark Gray (#333333) code blocks
+Layout: Strict 12-column grid, modular boxes, 8px base spacing unit, table format
+Visual: Sharp 90° corners, grid pattern background, monospace aesthetic, square bullets
+Style: Precise, technical dev/engineering aesthetic, systematic for STEM roles`,
+
+            'minimalist-zen': `Typography: Helvetica Neue exclusively, weights 300/400, 0.95rem base, generous leading
+Color Scheme: Dark Gray (#333333) primary, Deep Plum (#4A154B) sparingly, monochromatic grays
+Layout: 4rem side margins, single column, 3-4rem section spacing, simple left-align
+Visual: No borders except 1px under name, white space dividers, dot separators, no decoration
+Style: Ultra-minimal, zen-like calm, confident simplicity for consultants/strategists/executives`
+        };
+
+        // Theme selection
+        function selectTheme(themeName) {
+            // Remove selected class from all
+            document.querySelectorAll('.theme-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selected class to clicked
+            const card = document.querySelector(`[data-theme="${themeName}"]`);
+            if (card) {
+                card.classList.add('selected');
+                document.getElementById('selectedTheme').value = themeName;
+                localStorage.setItem(STORAGE_KEYS.selectedTheme, themeName);
+                showAutoSaveIndicator('Theme selected: ' + card.querySelector('.theme-name').textContent);
+            }
+        }
+
+        // Load saved data on page load
+        function loadSavedData() {
+            const jobDesc = localStorage.getItem(STORAGE_KEYS.jobDescription);
+            const userExp = localStorage.getItem(STORAGE_KEYS.userExperience);
+            const filename = localStorage.getItem(STORAGE_KEYS.pdfFilename);
+            const theme = localStorage.getItem(STORAGE_KEYS.selectedTheme);
+
+            if (jobDesc) document.getElementById('jobDescription').value = jobDesc;
+            if (userExp) document.getElementById('userExperience').value = userExp;
+            if (filename) document.getElementById('pdfFilename').value = filename;
+            if (theme) selectTheme(theme);
+
+            if (jobDesc || userExp || filename) {
+                showAutoSaveIndicator('Data restored from browser memory');
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem(STORAGE_KEYS.jobDescription, document.getElementById('jobDescription').value);
+            localStorage.setItem(STORAGE_KEYS.userExperience, document.getElementById('userExperience').value);
+            localStorage.setItem(STORAGE_KEYS.pdfFilename, document.getElementById('pdfFilename').value);
+            showAutoSaveIndicator('Auto-saved');
+        }
+
+        // Clear all saved data
+        function clearSavedData() {
+            if (confirm('Clear all form data from browser memory? This will reset all fields.')) {
+                localStorage.removeItem(STORAGE_KEYS.jobDescription);
+                localStorage.removeItem(STORAGE_KEYS.userExperience);
+                localStorage.removeItem(STORAGE_KEYS.pdfFilename);
+                localStorage.removeItem(STORAGE_KEYS.selectedTheme);
+
+                document.getElementById('jobDescription').value = '';
+                document.getElementById('userExperience').value = '';
+                document.getElementById('pdfFilename').value = '';
+
+                // Reset to first theme
+                selectTheme('modern-professional');
+
+                showAutoSaveIndicator('Form cleared', 'error');
+            }
+        }
+
+        // Show auto-save indicator
+        function showAutoSaveIndicator(message, type = 'success') {
+            const indicator = document.getElementById('autoSaveIndicator');
+            if (!indicator) return;
+
+            indicator.textContent = message;
+            indicator.style.opacity = '1';
+            indicator.style.color = type === 'error' ? '#dc3545' : '#28a745';
+
+            setTimeout(() => {
+                indicator.style.opacity = '0';
+            }, 2000);
+        }
+
+        // Debounce function to limit save frequency
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedSave = debounce(saveData, 1000);
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+
+            // Add auto-save listeners
+            document.getElementById('jobDescription').addEventListener('input', debouncedSave);
+            document.getElementById('userExperience').addEventListener('input', debouncedSave);
+            document.getElementById('pdfFilename').addEventListener('input', debouncedSave);
+        });
+
+        function loadExample() {
+            document.getElementById('jobDescription').value = `Technology Analyst I
+Location: Vancouver, BC, CA
+Employment Type: Full-Time
+
+Requirements:
+- Microsoft Windows Server, Exchange Server, SQL Server, Active Directory
+- Azure, AVD, Office 365
+- ITIL framework knowledge
+- Bilingual English/French
+- A+ certification or equivalent
+- Client-facing technical support experience
+- PSA Software experience (preferred)
+
+Responsibilities:
+- Triage and dispatch support requests
+- Monitor and manage support tickets
+- Provide Tier 1 technical support
+- Document issues and solutions
+- Guide users through technical difficulties
+- Communicate with clients professionally
+
+Skills Required:
+- Adaptability in fast-paced environment
+- Attention to detail
+- Strong customer service
+- Time management
+- Problem-solving abilities`;
+
+            document.getElementById('userExperience').value = `Bhavesh Gavali
+Wireless Consultant
+(647) 975-5217
+bhaveshgavali2022@gmail.com
+
+EXPERIENCE:
+
+Sales Consultant - Telus Bramalea City Centre (June 2025 - Present)
+- Delivered exceptional customer experiences with personalized technology solutions
+- Consistently exceeded monthly sales targets through proactive engagement
+- Built strong customer base through in-store and phone outreach
+- Demonstrated product knowledge on devices, plans, and promotions
+- Adapted to fast-paced retail environment
+
+Wireless Consultant - STAPLES #135 BELL (Dec 2023 - June 2025)
+- Engaged customers to understand needs and provide customized solutions
+- Promoted BELL offerings effectively
+- Resolved issues efficiently from inception to resolution
+- Exceeded personal sales targets consistently
+
+Wireless Sales Associate - Walmart #3135 OSL (Jan 2023 - Nov 2023)
+- Provided tailored wireless solutions across all major carriers
+- Exceeded sales targets through upselling
+- Managed activations, upgrades, and plan transitions
+- Maintained current wireless technology knowledge
+
+ACHIEVEMENTS:
+- Top 150 Wireless Sales Associates nationally (4 times in 2024)
+- Top 5 in Greater Toronto Area District at Staples
+
+SKILLS:
+Customer Service, Sales, Team Leadership, Store Operations, Tech-Savvy, Communication
+
+EDUCATION:
+Algoma University (2022 - 2026)
+Bachelor's Degree in Computer Science (In Progress)`;
+
+            // Save example data to localStorage
+            saveData();
+            showAutoSaveIndicator('Example data loaded and saved');
+        }
+
+        document.getElementById('resumeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const jobDescription = document.getElementById('jobDescription').value;
+            const userExperience = document.getElementById('userExperience').value;
+
+            // Get selected theme template
+            const selectedTheme = document.getElementById('selectedTheme').value;
+            const template = THEMES[selectedTheme];
+
+            const pdfFilename = document.getElementById('pdfFilename').value || 'resume.pdf';
+
+            const submitBtn = document.getElementById('submitBtn');
+            const status = document.getElementById('status');
+
+            // Show loading
+            submitBtn.disabled = true;
+            status.className = 'status show loading';
+            status.innerHTML = `
+                <div class="spinner"></div>
+                <div class="status-title">Initializing...</div>
+                <div class="status-details">
+                    <div class="progress-bar" style="background: #e9ecef; height: 8px; border-radius: 4px; overflow: hidden; margin: 15px 0;">
+                        <div id="progressFill" style="background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                    <div id="progressText">Connecting to server...</div>
+                </div>
+            `;
+
+            const progressFill = () => document.getElementById('progressFill');
+            const progressText = () => document.getElementById('progressText');
+
+            try {
+                // Use fetch with streaming to read SSE
+                const response = await fetch('/api/generate-resume', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        jobDescription,
+                        userExperience,
+                        template: template || undefined,
+                        pdfFilename
+                    })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let finalResult = null;
+
+                while (true) {
+                    const { done, value } = await reader.read();
+
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+
+                    // Process complete messages
+                    const lines = buffer.split('\n\n');
+                    buffer = lines.pop(); // Keep incomplete message in buffer
+
+                    for (const line of lines) {
+                        if (!line.trim() || !line.startsWith('data: ')) continue;
+
+                        const data = JSON.parse(line.slice(6));
+
+                        // Handle progress updates
+                        if (data.stage && data.message) {
+                            if (progressFill()) {
+                                progressFill().style.width = data.progress + '%';
+                            }
+                            if (progressText()) {
+                                progressText().innerHTML = `
+                                    <strong>${data.stage.toUpperCase()}:</strong> ${data.message}<br>
+                                    <small style="color: #6c757d;">${data.progress}% complete</small>
+                                `;
+                            }
+                        }
+
+                        // Handle final result
+                        if (data.success !== undefined) {
+                            finalResult = data;
+                        }
+                    }
+                }
+
+                if (finalResult && finalResult.success) {
+                    // Use proxy URL for proper filename download
+                    const downloadUrl = `/api/download-pdf/${finalResult.data.responseId}/${encodeURIComponent(finalResult.data.filename)}`;
+
+                    status.className = 'status show success';
+                    status.innerHTML = `
+                        <div class="status-title">✅ Resume Generated Successfully!</div>
+                        <div class="status-details">
+                            <strong>Processing time:</strong> ${finalResult.data.duration}<br>
+                            <strong>File size:</strong> ${finalResult.data.pdfSize.toFixed(2)} MB<br>
+                            <strong>Cost:</strong> $${finalResult.data.cost.toFixed(4)}<br>
+                            <strong>Filename:</strong> ${finalResult.data.filename}<br>
+                            <strong>Note:</strong> PDF will be available for 24 hours
+                        </div>
+                        <a href="${downloadUrl}" class="download-btn">
+                            📥 Download Your Resume
+                        </a>
+                    `;
+                } else if (finalResult) {
+                    throw new Error(finalResult.error || 'Unknown error');
+                } else {
+                    throw new Error('No response from server');
+                }
+
+            } catch (error) {
+                status.className = 'status show error';
+                status.innerHTML = `
+                    <div class="status-title">❌ Error Generating Resume</div>
+                    <div class="status-details">
+                        ${error.message}<br><br>
+                        <strong>Please check:</strong><br>
+                        • Both required fields are filled<br>
+                        • Server is running<br>
+                        • API keys are configured<br>
+                        • You have internet connection
+                    </div>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

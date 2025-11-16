@@ -1,0 +1,18 @@
+{
+  "ignore": [
+    "temp/**",
+    "node_modules/**",
+    "*.json",
+    "*.html",
+    "*.pdf",
+    "public/**"
+  ],
+  "watch": [
+    "server.js",
+    "layer1_ai_generation.js",
+    "layer2_html_generation.js",
+    "generatePDF.js"
+  ],
+  "ext": "js",
+  "delay": 1000
+}

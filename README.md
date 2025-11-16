@@ -1,258 +1,365 @@
-# HTML to PDF Generator
+# AI Resume Generator
 
-A Node.js script that converts HTML files to PDF using the [Api2Pdf](https://www.api2pdf.com/) service.
+A powerful 3-layer AI-powered resume generator that creates tailored, ATS-optimized resumes from job descriptions. Available as both a **web interface** and **CLI tools**.
 
-## Features
+## 🚀 Quick Start
 
-- Convert HTML files to PDF using Headless Chrome or wkhtmltopdf
-- Support for custom PDF options (landscape, page size, etc.)
-- Command-line interface for easy usage
-- Programmatic API for integration into other projects
-- Delete PDFs on-demand from Api2Pdf servers
+### Web Interface (Recommended)
 
-## Prerequisites
-
-- Node.js (v12 or higher)
-- Api2Pdf API key (get one at [portal.api2pdf.com](https://portal.api2pdf.com))
-
-## Installation
-
-1. Install dependencies:
 ```bash
 npm install
+npm start
 ```
 
-2. Set up your API key in `.env`:
+Open **http://localhost:3000** in your browser and paste:
+1. Job description
+2. Your experience
+3. Click "Generate My Resume"
+
+Done! Download your tailored PDF resume in ~60 seconds.
+
+### CLI Usage
+
+```bash
+# Full pipeline
+node generate_resume.js
+
+# Individual layers
+npm run layer1  # AI content generation
+npm run layer2  # HTML generation
+npm run layer3  # PDF conversion
+```
+
+## ✨ Features
+
+- 🤖 **AI-Powered**: Uses Claude or GPT to analyze and tailor content
+- 🎯 **ATS-Optimized**: Keywords and formatting for applicant tracking systems
+- 🎨 **Professional Design**: Clean, modern resume templates
+- 📄 **PDF Export**: High-quality PDF via Api2Pdf
+- 🌐 **Web Interface**: No file management, paste and generate
+- ⚡ **Fast**: Generate resumes in ~60 seconds
+- 🔐 **Stateless**: No data storage, privacy-focused
+- 💰 **Affordable**: ~$0.02 per resume
+
+## 🏗️ Architecture
+
+```
+USER INPUT (Job Description + Experience)
+            ↓
+┌───────────────────────────────────────────────┐
+│  LAYER 1: AI Content Generation               │
+│  - Analyzes job requirements                  │
+│  - Tailors experience to match                │
+│  - Generates structured JSON                  │
+│  → Output: tailored_content.json              │
+└───────────────────────────────────────────────┘
+            ↓
+┌───────────────────────────────────────────────┐
+│  LAYER 2: HTML Generation                     │
+│  - Applies professional styling               │
+│  - Formats content beautifully                │
+│  - Generates complete HTML document           │
+│  → Output: resume.html                        │
+└───────────────────────────────────────────────┘
+            ↓
+┌───────────────────────────────────────────────┐
+│  LAYER 3: PDF Conversion                      │
+│  - Renders HTML to PDF                        │
+│  - Print-optimized output                     │
+│  - Hosted for 24 hours                        │
+│  → Output: resume.pdf                         │
+└───────────────────────────────────────────────┘
+```
+
+## 📦 Installation
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/airesume.git
+cd airesume
+
+# Install dependencies
+npm install
+
+# Configure API keys in .env
+cp .env.example .env
+# Edit .env with your API keys
+```
+
+## ⚙️ Configuration
+
+Create a `.env` file:
+
 ```env
-PORTAL_API_KEY=your-api-key-here
+# AI Provider (choose one)
+AI_PROVIDER=anthropic
+
+# Anthropic Claude API Key
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+
+# Or OpenAI API Key
+# OPENAI_API_KEY=sk-your-key-here
+
+# Api2Pdf API Key (for PDF generation)
+PORTAL_API_KEY=your-api2pdf-key
+
+# Server Port (optional, default: 3000)
+PORT=3000
 ```
 
-## Usage
+**Get API Keys:**
+- Anthropic: https://console.anthropic.com/
+- OpenAI: https://platform.openai.com/api-keys
+- Api2Pdf: https://portal.api2pdf.com/
 
-### Command Line
+## 🌐 Web Interface
 
-Basic usage:
+### Start Server
 ```bash
-node generatePDF.js sample.html
+npm start
 ```
 
-With custom filename:
+### Features
+- ✅ No file management needed
+- ✅ Paste job description and experience
+- ✅ Real-time progress tracking
+- ✅ Download PDF directly
+- ✅ Mobile responsive
+- ✅ Example data loader
+
+See [WEB_INTERFACE_README.md](WEB_INTERFACE_README.md) for details.
+
+## 💻 CLI Usage
+
+### Full Pipeline
+
 ```bash
-node generatePDF.js sample.html --filename resume.pdf
+# Generate resume from text files
+node generate_resume.js
+
+# Custom files
+node generate_resume.js --job my_job.txt --experience my_exp.txt --output my-resume.pdf
+
+# Use different AI provider
+node generate_resume.js --provider openai --model gpt-4
 ```
 
-Using wkhtmltopdf engine:
+### Individual Layers
+
+**Layer 1: AI Content Generation**
 ```bash
-node generatePDF.js sample.html --engine wkhtmltopdf
+npm run layer1
+# or
+node layer1_ai_generation.js --job job_description.txt --experience user_experience.txt
 ```
 
-Landscape orientation (Chrome):
+Input: `job_description.txt`, `user_experience.txt`
+Output: `tailored_content.json`
+
+**Layer 2: HTML Generation**
 ```bash
-node generatePDF.js sample.html --landscape --filename landscape.pdf
+npm run layer2
+# or
+node layer2_html_generation.js --json tailored_content.json --output resume.html
 ```
 
-Custom page size (wkhtmltopdf):
+Input: `tailored_content.json`, `template.txt`
+Output: `resume.html`
+
+**Layer 3: PDF Conversion**
 ```bash
-node generatePDF.js sample.html --engine wkhtmltopdf --pageSize A4
+npm run layer3
+# or
+node generatePDF.js resume.html --filename my-resume.pdf
 ```
 
-### Available Options
+Input: `resume.html`
+Output: PDF URL (valid 24 hours)
 
-- `--engine <chrome|wkhtmltopdf>` - PDF generation engine (default: chrome)
-- `--filename <name>` - Output filename (default: output.pdf)
-- `--inline <true|false>` - Inline download (default: false)
-- `--landscape` - Landscape orientation (Chrome only)
-- `--pageSize <size>` - Page size like A4, Letter (wkhtmltopdf only)
+## 📚 Documentation
 
-### Programmatic Usage
+- [LAYER1_README.md](LAYER1_README.md) - AI Content Generation details
+- [LAYER2_README.md](LAYER2_README.md) - HTML Generation details
+- [WEB_INTERFACE_README.md](WEB_INTERFACE_README.md) - Web API documentation
 
-```javascript
-const { generatePDF, deletePDF } = require('./generatePDF');
+## 🎯 Use Cases
 
-// Generate PDF with default options
-generatePDF('./sample.html')
-    .then(result => {
-        console.log('PDF URL:', result.FileUrl);
-        console.log('Response ID:', result.ResponseId);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+### Individual Job Seekers
+1. Paste job description from LinkedIn/Indeed
+2. Enter your experience and skills
+3. Get tailored resume instantly
+4. Download and apply
 
-// Generate PDF with custom options
-const options = {
-    engine: 'chrome',
-    filename: 'my-resume.pdf',
-    inline: false,
-    pdfOptions: {
-        landscape: true
-    }
-};
+### Recruiters
+- Generate multiple resumes for different positions
+- Tailor candidate profiles to specific roles
+- Fast turnaround for client submissions
 
-generatePDF('./sample.html', options)
-    .then(result => {
-        console.log('PDF generated:', result.FileUrl);
+### Career Services
+- Help students create professional resumes
+- Tailor resumes for different industries
+- Teach ATS optimization
 
-        // Optionally delete the PDF after 1 hour
-        setTimeout(() => {
-            deletePDF(result.ResponseId);
-        }, 3600000);
-    });
+### Developers
+- API integration for resume services
+- Batch processing via CLI
+- Custom styling and templates
+
+## 💰 Costs
+
+Per resume generation:
+- **Layer 1 (AI)**: $0.01 - $0.05
+- **Layer 2 (AI)**: $0.005 - $0.01
+- **Layer 3 (PDF)**: ~$0.0006
+- **Total**: ~$0.015 - $0.06 per resume
+
+Both AI providers offer free trial credits.
+
+## 🔐 Security & Privacy
+
+- ✅ API keys stored in `.env` (gitignored)
+- ✅ No user data stored on server
+- ✅ Temporary files auto-deleted
+- ✅ PDFs hosted for 24 hours only
+- ✅ Stateless architecture
+- ⚠️ Data sent to AI provider APIs
+
+## 🛠️ Tech Stack
+
+- **Backend**: Node.js, Express.js
+- **AI**: Anthropic Claude / OpenAI GPT
+- **PDF**: Api2Pdf (Chrome/wkhtmltopdf)
+- **Frontend**: HTML, CSS, JavaScript (Vanilla)
+
+## 📊 Performance
+
+- **Processing Time**: 30-60 seconds
+- **Layer 1**: 15-30s (AI content generation)
+- **Layer 2**: 10-20s (HTML generation)
+- **Layer 3**: 3-5s (PDF conversion)
+
+## 🧪 Testing
+
+```bash
+# Test health endpoint
+curl http://localhost:3000/api/health
+
+# Test Layer 1 only
+node layer1_ai_generation.js --analyze-only
+
+# Test with example data
+# Click "Load Example Data" in web interface
 ```
 
-## PDF Engine Options
+## 🚢 Deployment
 
-### Chrome (Headless Chrome)
-
-Supported options in `pdfOptions`:
-- `landscape` - Boolean (default: false)
-- `displayHeaderFooter` - Boolean
-- `printBackground` - Boolean
-- `scale` - Number (0.1 to 2)
-- `paperWidth` - Number (in inches)
-- `paperHeight` - Number (in inches)
-- `marginTop` - Number (in inches)
-- `marginBottom` - Number (in inches)
-- `marginLeft` - Number (in inches)
-- `marginRight` - Number (in inches)
-- `pageRanges` - String (e.g., '1-5, 8, 11-13')
-
-[Full list of Chrome options](https://www.api2pdf.com/documentation/advanced-options-headless-chrome/)
-
-### wkhtmltopdf
-
-Supported options in `pdfOptions`:
-- `orientation` - 'landscape' or 'portrait'
-- `pageSize` - 'A4', 'Letter', etc.
-- `marginTop` - String (e.g., '10mm')
-- `marginBottom` - String
-- `marginLeft` - String
-- `marginRight` - String
-
-[Full list of wkhtmltopdf options](https://www.api2pdf.com/documentation/advanced-options-wkhtmltopdf/)
-
-## Examples
-
-### Example 1: Generate a Resume PDF
-```javascript
-const { generatePDF } = require('./generatePDF');
-
-const options = {
-    engine: 'chrome',
-    filename: 'john-doe-resume.pdf',
-    pdfOptions: {
-        printBackground: true,
-        marginTop: 0.4,
-        marginBottom: 0.4,
-        marginLeft: 0.4,
-        marginRight: 0.4
-    }
-};
-
-generatePDF('./resume.html', options);
+### Heroku
+```bash
+heroku create your-app-name
+git push heroku main
+heroku config:set ANTHROPIC_API_KEY=sk-ant-...
+heroku config:set PORTAL_API_KEY=...
+heroku open
 ```
 
-### Example 2: Generate a Landscape Report
-```javascript
-const { generatePDF } = require('./generatePDF');
-
-const options = {
-    engine: 'chrome',
-    filename: 'report.pdf',
-    pdfOptions: {
-        landscape: true,
-        printBackground: true
-    }
-};
-
-generatePDF('./report.html', options);
+### Docker
+```bash
+docker build -t ai-resume-generator .
+docker run -p 3000:3000 --env-file .env ai-resume-generator
 ```
 
-### Example 3: Using wkhtmltopdf with Custom Page Size
-```javascript
-const { generatePDF } = require('./generatePDF');
-
-const options = {
-    engine: 'wkhtmltopdf',
-    filename: 'document.pdf',
-    pdfOptions: {
-        orientation: 'portrait',
-        pageSize: 'A4',
-        marginTop: '10mm',
-        marginBottom: '10mm'
-    }
-};
-
-generatePDF('./document.html', options);
+### VPS/Cloud
+```bash
+npm install -g pm2
+pm2 start server.js --name ai-resume
+pm2 save
+pm2 startup
 ```
 
-## Important Notes
+## 🤝 Contributing
 
-- Generated PDFs are hosted on Api2Pdf servers and available for 24 hours
-- Each PDF generation incurs a small cost (check your Api2Pdf pricing)
-- You can delete PDFs on-demand using the `deletePDF()` function
-- The API key should be kept secure and never committed to version control
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-## Security
+## 📝 Example Workflow
 
-- The `.env` file is gitignored by default
-- Never share your API key publicly
-- Consider using environment variables in production
+### Web Interface
+1. Visit http://localhost:3000
+2. Click "Load Sample Resume Data"
+3. Click "Generate My Resume"
+4. Wait ~60 seconds
+5. Download PDF
 
-## Troubleshooting
+### CLI
+1. Create `job_description.txt` with job posting
+2. Create `user_experience.txt` with your background
+3. Run `node generate_resume.js`
+4. Download PDF from URL
 
-### API Key Not Found
-Make sure your `.env` file exists and contains:
-```env
-PORTAL_API_KEY=your-actual-api-key
-```
+## 🐛 Troubleshooting
 
-### HTML File Not Found
-Ensure you're providing the correct path to the HTML file. You can use absolute or relative paths.
+### API Errors
+- Check `.env` has valid API keys
+- Verify API credits/quota
+- Check internet connection
 
-### PDF Generation Failed
-Check the error message for details. Common issues:
-- Invalid API key
-- Malformed HTML
-- Network connectivity issues
+### Server Issues
+- Port 3000 in use? Change PORT in `.env`
+- Missing dependencies? Run `npm install`
 
-## API Reference
+### PDF Generation Fails
+- Check PORTAL_API_KEY is valid
+- Verify Api2Pdf account has credits
 
-### generatePDF(htmlFilePath, options)
+## 📖 How It Works
 
-Generates a PDF from an HTML file.
+### Layer 1: AI Content Generation
+1. Reads job description and user experience
+2. Analyzes job requirements and keywords
+3. Maps user's experience to job needs
+4. Rewrites content with ATS optimization
+5. Outputs structured JSON
 
-**Parameters:**
-- `htmlFilePath` (string) - Path to the HTML file
-- `options` (object) - Configuration options
-  - `engine` (string) - 'chrome' or 'wkhtmltopdf' (default: 'chrome')
-  - `filename` (string) - Output filename (default: 'output.pdf')
-  - `inline` (boolean) - Inline download (default: false)
-  - `pdfOptions` (object) - Engine-specific options
+### Layer 2: HTML Generation
+1. Takes JSON from Layer 1
+2. Applies professional styling template
+3. Generates complete HTML document
+4. Optimized for PDF conversion
 
-**Returns:** Promise<object>
-- `Success` (boolean)
-- `FileUrl` (string)
-- `MbOut` (number)
-- `Cost` (number)
-- `ResponseId` (string)
-- `Error` (string|null)
+### Layer 3: PDF Conversion
+1. Takes HTML from Layer 2
+2. Renders to PDF via Api2Pdf
+3. Returns download URL
+4. PDF available for 24 hours
 
-### deletePDF(responseId)
+## 🎓 Learning Resources
 
-Deletes a PDF from Api2Pdf servers.
+- [Anthropic Claude Documentation](https://docs.anthropic.com/)
+- [OpenAI API Documentation](https://platform.openai.com/docs)
+- [Api2Pdf Documentation](https://www.api2pdf.com/documentation/)
+- [Express.js Guide](https://expressjs.com/en/guide/routing.html)
 
-**Parameters:**
-- `responseId` (string) - Response ID from PDF generation
-
-**Returns:** Promise<void>
-
-## License
+## 📄 License
 
 ISC
 
-## Resources
+## 🙏 Acknowledgments
 
-- [Api2Pdf Documentation](https://www.api2pdf.com/documentation/)
-- [Api2Pdf Node.js Client](https://github.com/Api2Pdf/api2pdf.node)
-- [Get API Key](https://portal.api2pdf.com/)
+- Anthropic Claude for AI content generation
+- OpenAI GPT for alternative AI provider
+- Api2Pdf for PDF conversion service
+- Express.js for web framework
+
+## 📧 Support
+
+For issues, questions, or feature requests:
+1. Check documentation in `/docs`
+2. Review troubleshooting sections
+3. Open an issue on GitHub
+
+---
+
+**Made with ❤️ by developers, for job seekers**
