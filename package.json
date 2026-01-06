@@ -25,6 +25,7 @@
   "description": "AI-powered resume generator with 3-layer architecture: AI content generation, HTML templating, and PDF conversion",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.69.0",
+    "@google/generative-ai": "^0.21.0",
     "api2pdf": "^2.0.3",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",

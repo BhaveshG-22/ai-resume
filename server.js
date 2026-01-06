@@ -8,9 +8,10 @@ require('dotenv').config();
 const ResumeAIGenerator = require('./layer1_ai_generation');
 const HTMLGenerator = require('./layer2_html_generation');
 const { generatePDF } = require('./generatePDF');
+const ResumeScorer = require('./layer4_ai_scoring');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3009;
 
 // Middleware
 app.use(cors());
@@ -65,8 +66,8 @@ Compact: Efficient use of space to fit comprehensive information`;
 app.get('/api/health', (req, res) => {
     res.json({
         status: 'ok',
-        message: '3-Layer AI Resume Generator API',
-        layers: ['AI Content Generation', 'HTML Generation', 'PDF Conversion']
+        message: '4-Layer AI Resume Generator API',
+        layers: ['AI Content Generation', 'HTML Generation', 'PDF Conversion', 'AI Resume Scoring']
     });
 });
 
@@ -174,7 +175,19 @@ app.post('/api/generate-resume', async (req, res) => {
             }
         });
         console.log('   ✓ PDF generated');
-        sendProgress('layer3', '✓ PDF generated successfully!', 95);
+        sendProgress('layer3', '✓ PDF generated successfully!', 85);
+
+        // LAYER 4: AI Scoring
+        sendProgress('layer4', '📊 Layer 4: Scoring resume with AI providers...', 87);
+        console.log('\n📊 Layer 4: AI Resume Scoring');
+
+        const scorer = new ResumeScorer();
+
+        sendProgress('layer4', 'Evaluating resume quality with Claude, OpenAI, and Gemini...', 90);
+        const scores = await scorer.scoreResume(tailoredContent, jobDescription);
+
+        console.log('   ✓ Resume scored by AI');
+        sendProgress('layer4', '✓ Resume scored successfully!', 95);
 
         // Clean up temp files
         sendProgress('cleanup', 'Cleaning up temporary files...', 97);
@@ -199,7 +212,8 @@ app.post('/api/generate-resume', async (req, res) => {
                 responseId: pdfResult.ResponseId,
                 duration: `${duration}s`,
                 filename: filename,
-                tailoredContent: tailoredContent
+                tailoredContent: tailoredContent,
+                scores: scores
             }
         };
 
